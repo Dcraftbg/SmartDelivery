@@ -1,0 +1,32 @@
+# Core functionality
+- [ ] - Admin functionality:
+    - [x] - View all restaurants
+    - [x] - View all products
+    - [x] - View all users
+    - [ ] - View active|inactive orders (Some sort of filter?)
+    - [ ] - View access tokens 
+- [x] - Customer functionality:
+    - [x] - View all restaurants and their products
+    - [x] - Add products to cart
+    - [x] - Submit order
+- [x] - DeliveryGuy functionality:
+    - [x] - Get list of active orders
+    - [x] - Accept orders
+- [ ] - Manager functionality:
+    - [ ] - Register new restaurants
+    - [ ] - Delete restaurants
+    - [ ] - Register new products
+    - [ ] - Delete products
+
+# Additional features
+- [ ] - Customer get pending orders
+- [ ] - Customer tracking of order status.
+- [ ] - Product Categories and filtering (tags)
+- [ ] - Persistance layer with jakarta
+- [ ] - Total profit report for a given timeframe
+- [ ] - Total generated revenue per employee
+- [ ] - Bonus calculation and visualisation
+- [ ] - SSE to inform delivery persons to update in the case of accepted orders.
+- [ ] - SSE for clients in the case of new products being added perhaps? 
+- [ ] - Dropdown for DeliveryGuy orders (you click on it and it shows you more info about the delivery)
+- [ ] - Human readable delivery information.

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+<input id="user" placeholder="Username"><br>
+<input id="pass" placeholder="Password"><br>
+<button onclick=submit()> Submit </button>
+</body>
+<script>
+    // TODO: refactor into utils.js
+    function assert_non_null(a, ...fmt) {
+        if(a == null) {
+            throw new Error("Assertion on null value " + fmt.join(" "))
+        }
+        return a;
+    }
+    // TODO: refactor into utils.js
+    async function sha256(value) {
+        return new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
+    }
+    async function submit() {
+        const user = assert_non_null(document.getElementById("user"), "user").value;
+        const pass = assert_non_null(document.getElementById("pass"), "pass").value;
+        if (!user || !pass) {
+            console.error("Please provide user and pass");
+            throw new Error("TODO: Display something here");
+        }
+        let pass_hash = (await sha256(pass)).toBase64();
+        const request = {
+            username: user,
+            password: pass_hash
+        };
+        const response = await (await fetch("/login", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(request)
+        })).json();
+        document.cookie = `access-token=${response.access_token};path=/`;
+        location.href = "/";
+    }
+</script>
+</html>

@@ -1,0 +1,45 @@
+.cart-container {
+    overflow-y: auto;
+    padding: 1px;
+    display: grid;
+    gap: 1px;
+    background-color: #ddd;
+    grid-template-columns: auto 1fr auto auto;
+}
+.cart-container > * {
+    background-color: white;
+}
+.cart-name {
+    display: flex;
+    align-items: center;
+}
+.cart-buttons {
+    display: flex;
+    gap: 5px;
+}
+.cart-counter {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.cart-price {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.cart-total {
+    align-items: center;
+    font-size: 1.3rem;
+}
+.order-button {
+    width: 160px;
+    font-size: 1.2rem;
+    background-color: #80EF80;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

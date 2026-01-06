@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertical Counter List</title>
+<style>
+.dropdown {
+  width: 200px;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  background: #eee;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-content {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/* Open state */
+.dropdown.open .dropdown-content {
+  display: block;
+}
+
+.dropdown.open .arrow {
+  transform: rotate(180deg);
+}
+</style>
+</head>
+<body>
+
+<div class="dropdown">
+  <button class="dropdown-toggle" aria-expanded="false">
+    Menu
+    <span class="arrow">V</span>
+  </button>
+
+  <div class="dropdown-content">
+    <p>This is some HTML content.</p>
+    <ul>
+      <li>Item one</li>
+      <li>Item two</li>
+    </ul>
+  </div>
+</div>
+<script>
+  const dropdown = document.querySelector(".dropdown");
+  const toggle = dropdown.querySelector(".dropdown-toggle");
+
+  toggle.addEventListener("click", () => {
+    dropdown.classList.toggle("open");
+
+    const isOpen = dropdown.classList.contains("open");
+    toggle.setAttribute("aria-expanded", isOpen);
+  });
+</script>
+
+</body>
+</html>
