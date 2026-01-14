@@ -1,7 +1,7 @@
 package com.smart.delivery.delivery.requests;
 
 import com.smart.delivery.*;
-import com.smart.delivery.utils.DbHelper;
+import com.smart.delivery.utils.Auth;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "delivery_rq")
 public class DeliveryRequestController {
-    // TODO: refactor this out
     private Optional<AccountInfo> deliveryAuth(UUID access_token) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), access_token);
-        if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + access_token);
-            return user_opt;
-        }
-        var user = user_opt.get();
-        if(user.getType() != AccountType.DeliveryGuy) {
-            System.err.println("Non delivery " + access_token + " tried to issue a delivery request");
-            return Optional.empty();
-        }
-        return Optional.of(user);
+        return Auth.authByAccountType(access_token, AccountType.DeliveryGuy);
     }
 
 

@@ -1,6 +1,7 @@
 package com.smart.delivery.common.requests;
 
 import com.smart.delivery.*;
+import com.smart.delivery.utils.Auth;
 import com.smart.delivery.utils.DbHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,7 @@ import java.util.UUID;
 @RestController
 public class CommonRequestController {
     private Optional<AccountInfo> commonAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
-        if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + accessToken);
-        }
-        return user_opt;
+        return Auth.authByAccessToken(accessToken);
     }
     @PostMapping(path = "get_products")
     public ResponseEntity<ProductInfo[]> getProducts(@RequestBody GetProductRequest request) {

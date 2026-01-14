@@ -4,7 +4,7 @@ import com.smart.delivery.AccessTokenRequest;
 import com.smart.delivery.AccountInfo;
 import com.smart.delivery.AccountType;
 import com.smart.delivery.DbInstance;
-import com.smart.delivery.utils.DbHelper;
+import com.smart.delivery.utils.Auth;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,19 +18,8 @@ import java.util.UUID;
 @RestController()
 @RequestMapping(path = "admin_rq")
 public class AdminRequestController {
-    // TODO: refactor this out
     private Optional<AccountInfo> adminAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
-        if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + accessToken);
-            return user_opt;
-        }
-        var user = user_opt.get();
-        if(user.getType() != AccountType.Admin) {
-            System.err.println("Non admin " + accessToken + " tried to execute an admin request");
-            return Optional.empty();
-        }
-        return Optional.of(user);
+        return Auth.authByAccountType(accessToken, AccountType.Admin);
     }
 
     @PostMapping(path = "get_users")

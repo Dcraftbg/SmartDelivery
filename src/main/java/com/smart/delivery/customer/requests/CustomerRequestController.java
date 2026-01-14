@@ -4,7 +4,7 @@ import com.smart.delivery.AccountInfo;
 import com.smart.delivery.AccountType;
 import com.smart.delivery.DbInstance;
 import com.smart.delivery.OrderItem;
-import com.smart.delivery.utils.DbHelper;
+import com.smart.delivery.utils.Auth;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +20,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "customer_rq")
 public class CustomerRequestController {
-    // TODO: refactor this out
     private Optional<AccountInfo> customerAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
-        if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + accessToken);
-            return user_opt;
-        }
-        var user = user_opt.get();
-        if(user.getType() != AccountType.Customer) {
-            System.err.println("Non customer " + accessToken + " tried to issue a customer request");
-            return Optional.empty();
-        }
-        return Optional.of(user);
+        return Auth.authByAccountType(accessToken, AccountType.Customer);
     }
-
 
     @Data
     public static class PlaceOrderRequest {
