@@ -33,20 +33,20 @@ public class DeliveryRequestController {
 
     @PostMapping("pending_orders")
     public ResponseEntity<PendingOrder[]> pendingOrders(@RequestBody AccessTokenRequest request) {
-        if(deliveryAuth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if(deliveryAuth(request.getAccessToken()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         return ResponseEntity.ok(DbInstance.get_instance().getPendingOrders());
     }
 
     @Data
     public static class AcceptOrdersRequest {
-        private final UUID access_token;
+        private final UUID accessToken;
         private final int[] orders;
     }
     @PostMapping("accept_orders")
     public ResponseEntity<Integer[]> acceptOrders(@RequestBody AcceptOrdersRequest request) {
-        if(deliveryAuth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if(deliveryAuth(request.getAccessToken()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: stupid return id.
-        int author_id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccess_token());
+        int author_id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccessToken());
         List<Integer> successful = new ArrayList<>();
         for(int id : request.getOrders()) {
             if(DbInstance.get_instance().acceptOrder(author_id, id)) {

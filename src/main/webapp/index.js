@@ -26,7 +26,7 @@ async function make_json_request(filename, body, method='POST') {
 async function make_access_token_request(filename, token, method='POST') {
     assert_non_null(token, "Called make_access_token_request without specifying token");
     return await make_json_request(filename, {
-        access_token: token
+        accessToken: token
     }, method);
 }
 
@@ -35,7 +35,7 @@ const delivery_get_pending_orders = (token) => make_access_token_request('/deliv
 
 const make_account_info_request = (token) => make_access_token_request('/account_info', token);
 const request_get_products = (token, restaurant_id) => make_json_request('/get_products', {
-    access_token: token,
+    accessToken: token,
     restaurant_id: restaurant_id,
 });
 const request_get_restaurants = (token) => make_access_token_request('/get_restaurants', token);
@@ -114,7 +114,7 @@ async function place_order() {
             count: product_count
         }))).flat();
     response = await make_json_request("/customer_rq/place_order", {
-        access_token: access_token,
+        accessToken: access_token,
         order: order
     });
     if(!response.ok) {
@@ -131,7 +131,7 @@ async function accept_orders() {
     if(pending_orders.length > 0) {
         console.log(pending_orders);
         response = await make_json_request("/delivery_rq/accept_orders", {
-            access_token: access_token,
+            accessToken: access_token,
             orders: pending_orders
         });
         if(!response.ok) {

@@ -36,7 +36,7 @@
             },
             body: JSON.stringify(request)
         })).json();
-        document.cookie = `access-token=${response.access_token};path=/`;
+        document.cookie = `access-token=${response.accessToken};path=/`;
         location.href = "/";
     }
 </script>

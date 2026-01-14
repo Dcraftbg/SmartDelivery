@@ -6,6 +6,6 @@ import java.util.UUID;
 
 @Data
 public class GetProductRequest {
-    private final UUID access_token;
+    private final UUID accessToken;
     private final int restaurant_id;
 }

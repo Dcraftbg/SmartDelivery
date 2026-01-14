@@ -35,7 +35,7 @@ public class AdminRequestController {
 
     @PostMapping(path = "get_users")
     public ResponseEntity<AccountInfo[]> getUsers(@RequestBody AccessTokenRequest request) {
-        var user = adminAuth(request.getAccess_token());
+        var user = adminAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         return ResponseEntity.ok(DbInstance.get_instance().getAllAccounts());
     }

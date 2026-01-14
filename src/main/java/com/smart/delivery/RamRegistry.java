@@ -17,30 +17,30 @@ public class RamRegistry implements DbContext {
     }
 
     @Override
-    public void insertPasswordTokenPair(String username, TokenPassPair password_token_pair) {
-        tokens.put(username, password_token_pair);
+    public void insertPasswordTokenPair(String username, TokenPassPair passwordTokenPair) {
+        tokens.put(username, passwordTokenPair);
     }
 
     @Override
-    public Optional<AccountInfo> findAccountInfoFromId(int account_id) {
-        return account_id < 0 || account_id >= accounts.size() ? Optional.empty() : Optional.ofNullable(accounts.get(account_id));
+    public Optional<AccountInfo> findAccountInfoFromId(int accountId) {
+        return accountId < 0 || accountId >= accounts.size() ? Optional.empty() : Optional.ofNullable(accounts.get(accountId));
     }
 
     @Override
-    public int insertNewAccount(AccountInfo account_info) {
+    public int insertNewAccount(AccountInfo accountInfo) {
         int id = accounts.size();
-        accounts.add(account_info);
+        accounts.add(accountInfo);
         return id;
     }
 
     @Override
-    public void insertNewAccessToken(UUID access_token, int id) {
-        accessTokens.put(access_token, id);
+    public void insertNewAccessToken(UUID accessToken, int id) {
+        accessTokens.put(accessToken, id);
     }
 
     @Override
-    public int findAccountIdFromAccessToken(UUID access_token) {
-        var out = accessTokens.get(access_token);
+    public int findAccountIdFromAccessToken(UUID accessToken) {
+        var out = accessTokens.get(accessToken);
         return out == null ? -1 : out;
     }
 
@@ -61,19 +61,19 @@ public class RamRegistry implements DbContext {
     }
 
     @Override
-    public void insertNewProductForRestaurant(int restaurant_id, ProductInfo product_info) {
-        restaurants.get(restaurant_id).products.add(product_info);
+    public void insertNewProductForRestaurant(int restaurantId, ProductInfo product_info) {
+        restaurants.get(restaurantId).products.add(product_info);
     }
 
     @Override
-    public Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurant_id) {
-        if(restaurant_id < 0 || restaurant_id >= restaurants.size()) return Optional.empty();
-        return Optional.of(restaurants.get(restaurant_id).products.toArray(new ProductInfo[0]));
+    public Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurantId) {
+        if(restaurantId < 0 || restaurantId >= restaurants.size()) return Optional.empty();
+        return Optional.of(restaurants.get(restaurantId).products.toArray(new ProductInfo[0]));
     }
 
     @Override
-    public void insertNewOrder(int issued_by_whom, List<OrderItem> order) {
-        orders.add(new Order(false, -1, issued_by_whom, order));
+    public void insertNewOrder(int issuedByWhom, List<OrderItem> order) {
+        orders.add(new Order(false, -1, issuedByWhom, order));
     }
 
     @Override
@@ -84,10 +84,10 @@ public class RamRegistry implements DbContext {
     }
 
     @Override
-    public boolean acceptOrder(int accepted_by_whom, int id) {
+    public boolean acceptOrder(int acceptedByWhom, int id) {
         if(id >= orders.size()) return false;
         orders.get(id).setCompleted(true);
-        orders.get(id).setCompletedByWhom(accepted_by_whom);
+        orders.get(id).setCompletedByWhom(acceptedByWhom);
         return true;
     }
 }

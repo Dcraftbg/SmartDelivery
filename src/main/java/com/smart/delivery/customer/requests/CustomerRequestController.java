@@ -21,15 +21,15 @@ import java.util.UUID;
 @RequestMapping(path = "customer_rq")
 public class CustomerRequestController {
     // TODO: refactor this out
-    private Optional<AccountInfo> customerAuth(UUID access_token) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), access_token);
+    private Optional<AccountInfo> customerAuth(UUID accessToken) {
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), accessToken);
         if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + access_token);
+            System.err.println("Someone tried to login with a bogus token: " + accessToken);
             return user_opt;
         }
         var user = user_opt.get();
         if(user.getType() != AccountType.Customer) {
-            System.err.println("Non customer " + access_token + " tried to issue a customer request");
+            System.err.println("Non customer " + accessToken + " tried to issue a customer request");
             return Optional.empty();
         }
         return Optional.of(user);
@@ -39,15 +39,15 @@ public class CustomerRequestController {
     public record ZeroResponse() {};
     @Data
     public static class PlaceOrderRequest {
-        UUID access_token;
+        UUID accessToken;
         List<OrderItem> order;
     }
     @PostMapping("place_order")
     public ResponseEntity<ZeroResponse> placeOrder(@RequestBody PlaceOrderRequest request) {
-        var user = customerAuth(request.getAccess_token());
+        var user = customerAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: this is very wasteful, make a single request and return the id as well. Won't be a problem later with a Db but yeah
-        int id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccess_token());
+        int id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccessToken());
         DbInstance.get_instance().insertNewOrder(id, request.order);
         return ResponseEntity.ok(new ZeroResponse());
     }

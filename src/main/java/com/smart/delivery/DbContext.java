@@ -6,18 +6,18 @@ import java.util.UUID;
 
 public interface DbContext {
     Optional<TokenPassPair> findPasswordTokenPairByUsername(String username);
-    void insertPasswordTokenPair(String username, TokenPassPair password_token_pair);
-    Optional<AccountInfo> findAccountInfoFromId(int account_id);
-    int insertNewAccount(AccountInfo account_info);
-    void insertNewAccessToken(UUID access_token, int id);
-    int findAccountIdFromAccessToken(UUID access_token);
+    void insertPasswordTokenPair(String username, TokenPassPair passwordTokenPair);
+    Optional<AccountInfo> findAccountInfoFromId(int accountId);
+    int insertNewAccount(AccountInfo accountInfo);
+    void insertNewAccessToken(UUID accessToken, int id);
+    int findAccountIdFromAccessToken(UUID accessToken);
     AccountInfo[] getAllAccounts();
     int insertNewRestaurant(RestaurantInfo info);
     RestaurantInfo[] getAllRestaurants();
-    void insertNewProductForRestaurant(int restaurant_id, ProductInfo product_info);
-    Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurant_id);
-    void insertNewOrder(int issued_by_whom, List<OrderItem> order);
+    void insertNewProductForRestaurant(int restaurantId, ProductInfo product_info);
+    Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurantId);
+    void insertNewOrder(int issuedByWhom, List<OrderItem> order);
 
     PendingOrder[] getPendingOrders();
-    boolean acceptOrder(int accepted_by_whom, int id);
+    boolean acceptOrder(int acceptedByWhom, int id);
 }

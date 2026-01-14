@@ -14,22 +14,22 @@ import java.util.UUID;
 
 @RestController
 public class CommonRequestController {
-    private Optional<AccountInfo> commonAuth(UUID access_token) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), access_token);
+    private Optional<AccountInfo> commonAuth(UUID accessToken) {
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), accessToken);
         if(user_opt.isEmpty()) {
-            System.err.println("Someone tried to login with a bogus token: " + access_token);
+            System.err.println("Someone tried to login with a bogus token: " + accessToken);
         }
         return user_opt;
     }
     @PostMapping(path = "get_products")
     public ResponseEntity<ProductInfo[]> getProducts(@RequestBody GetProductRequest request) {
-        var user_opt = commonAuth(request.getAccess_token());
+        var user_opt = commonAuth(request.getAccessToken());
         if(user_opt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         return DbInstance.get_instance().getAllProductsForRestaurant(request.getRestaurant_id()).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @PostMapping(path = "get_restaurants")
     public ResponseEntity<RestaurantInfo[]> getRestaurants(@RequestBody AccessTokenRequest request) {
-        var user = commonAuth(request.getAccess_token());
+        var user = commonAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         return ResponseEntity.ok(DbInstance.get_instance().getAllRestaurants());
     }
@@ -44,7 +44,7 @@ public class CommonRequestController {
     @PostMapping(path = "account_info")
     public ResponseEntity<AccountInfo> accountInfo(@RequestBody AccessTokenRequest accountInfoRequest) {
         return DbHelper
-                .getAccountInfoFromAccessToken(DbInstance.get_instance(), accountInfoRequest.getAccess_token())
+                .getAccountInfoFromAccessToken(DbInstance.get_instance(), accountInfoRequest.getAccessToken())
                 .map(account -> new ResponseEntity<>(account, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

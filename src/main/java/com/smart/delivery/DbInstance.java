@@ -7,10 +7,10 @@ import java.util.UUID;
 public class DbInstance {
     private static final RamRegistry ram_registry = new RamRegistry();
     // helper function. Will be removed later once we have a persistent db
-    private static int insert_account_from_parts(String username, String password, AccountType account_type) {
+    private static int insert_account_from_parts(String username, String password, AccountType accountType) {
         byte[] pass_hash = HashUtils.sha256(password);
         UUID access_token = UUID.randomUUID();
-        int account_id = ram_registry.insertNewAccount(new AccountInfo(username, account_type));
+        int account_id = ram_registry.insertNewAccount(new AccountInfo(username, accountType));
         ram_registry.insertNewAccessToken(access_token, account_id);
         ram_registry.insertPasswordTokenPair(username, new TokenPassPair(access_token, pass_hash));
         return account_id;
@@ -20,17 +20,17 @@ public class DbInstance {
         insert_account_from_parts("Ben", "eater", AccountType.Customer);
         insert_account_from_parts("Mike", "delivery", AccountType.DeliveryGuy);
         int john = insert_account_from_parts("John Dough", "1234", AccountType.Manager);
-        int johns_pizzeria = ram_registry.insertNewRestaurant(new RestaurantInfo(john, "John's Pizza"));
+        int johnsPizzeria = ram_registry.insertNewRestaurant(new RestaurantInfo(john, "John's Pizza"));
         ProductInfo[] johns_pizzas = {
                 new ProductInfo("Pepperoni Pizza", 10),
                 new ProductInfo("Vegan Pizza", 16),
                 new ProductInfo("Three Cheese Pizza", 19),
         };
         for (ProductInfo pizza : johns_pizzas) {
-            ram_registry.insertNewProductForRestaurant(johns_pizzeria, pizza);
+            ram_registry.insertNewProductForRestaurant(johnsPizzeria, pizza);
         }
-        int juans_taco_place = ram_registry.insertNewRestaurant(new RestaurantInfo(john, "Juan's Authentic Tacos"));
-        ProductInfo[] juans_tacos = {
+        int juansTacoPlace = ram_registry.insertNewRestaurant(new RestaurantInfo(john, "Juan's Authentic Tacos"));
+        ProductInfo[] juansTacos = {
                 new ProductInfo("Carne Asada Taco", 5),
                 new ProductInfo("Chicken Taco", 4),
                 new ProductInfo("Veggie Taco", 3),
@@ -40,8 +40,8 @@ public class DbInstance {
                 new ProductInfo("Chorizo Taco", 5),
                 new ProductInfo("Barbacoa Taco", 6),
         };
-        for (ProductInfo taco : juans_tacos) {
-            ram_registry.insertNewProductForRestaurant(juans_taco_place, taco);
+        for (ProductInfo taco : juansTacos) {
+            ram_registry.insertNewProductForRestaurant(juansTacoPlace, taco);
         }
     };
     public static DbContext get_instance() {
