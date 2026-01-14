@@ -36,7 +36,7 @@ const delivery_get_pending_orders = (token) => make_access_token_request('/deliv
 const make_account_info_request = (token) => make_access_token_request('/account_info', token);
 const request_get_products = (token, restaurant_id) => make_json_request('/get_products', {
     accessToken: token,
-    restaurant_id: restaurant_id,
+    restaurantId: restaurant_id,
 });
 const request_get_restaurants = (token) => make_access_token_request('/get_restaurants', token);
 
@@ -275,7 +275,7 @@ async function render_site() {
             body += orders.map((order) => 
                 `<input type="checkbox" name="pending_order" value=${order.id}>
                 <span> Order number #${order.id}</span>
-                <ul>${order.order_items.map((item) => `
+                <ul>${order.orderItems.map((item) => `
                     <li>${item.count} Product ${item.id} from restaurant ${item.rid}
                 `).join("")}
                 </ul>

@@ -25,7 +25,7 @@ public class CommonRequestController {
     public ResponseEntity<ProductInfo[]> getProducts(@RequestBody GetProductRequest request) {
         var user_opt = commonAuth(request.getAccessToken());
         if(user_opt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return DbInstance.get_instance().getAllProductsForRestaurant(request.getRestaurant_id()).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return DbInstance.get_instance().getAllProductsForRestaurant(request.getRestaurantId()).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @PostMapping(path = "get_restaurants")
     public ResponseEntity<RestaurantInfo[]> getRestaurants(@RequestBody AccessTokenRequest request) {
