@@ -1,7 +1,7 @@
 package com.smart.delivery.utils;
 
-import com.smart.delivery.AccountInfo;
-import com.smart.delivery.DbContext;
+import com.smart.delivery.common.data.AccountInfo;
+import com.smart.delivery.registry.DbContext;
 
 import java.util.Optional;
 import java.util.UUID;

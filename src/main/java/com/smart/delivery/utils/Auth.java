@@ -1,8 +1,8 @@
 package com.smart.delivery.utils;
 
-import com.smart.delivery.AccountInfo;
-import com.smart.delivery.AccountType;
-import com.smart.delivery.DbInstance;
+import com.smart.delivery.common.data.AccountInfo;
+import com.smart.delivery.common.data.AccountType;
+import com.smart.delivery.registry.DbInstance;
 
 import java.util.Optional;
 import java.util.UUID;

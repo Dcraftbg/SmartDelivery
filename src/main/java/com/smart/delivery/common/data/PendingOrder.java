@@ -1,4 +1,4 @@
-package com.smart.delivery;
+package com.smart.delivery.common.data;
 
 import java.util.List;
 

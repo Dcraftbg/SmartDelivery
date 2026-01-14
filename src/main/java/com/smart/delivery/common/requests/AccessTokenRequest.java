@@ -1,4 +1,4 @@
-package com.smart.delivery;
+package com.smart.delivery.common.requests;
 
 import lombok.Data;
 

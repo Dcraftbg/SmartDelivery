@@ -1,9 +1,9 @@
-package com.smart.delivery.admin.requests;
+package com.smart.delivery.admin.controller;
 
-import com.smart.delivery.AccessTokenRequest;
-import com.smart.delivery.AccountInfo;
-import com.smart.delivery.AccountType;
-import com.smart.delivery.DbInstance;
+import com.smart.delivery.common.requests.AccessTokenRequest;
+import com.smart.delivery.common.data.AccountInfo;
+import com.smart.delivery.common.data.AccountType;
+import com.smart.delivery.registry.DbInstance;
 import com.smart.delivery.utils.Auth;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

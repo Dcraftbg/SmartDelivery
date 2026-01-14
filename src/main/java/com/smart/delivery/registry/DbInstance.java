@@ -1,5 +1,6 @@
-package com.smart.delivery;
+package com.smart.delivery.registry;
 
+import com.smart.delivery.common.data.*;
 import com.smart.delivery.utils.HashUtils;
 
 import java.util.UUID;

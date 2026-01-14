@@ -1,4 +1,6 @@
-package com.smart.delivery;
+package com.smart.delivery.registry;
+
+import com.smart.delivery.common.data.*;
 
 import java.util.List;
 import java.util.Optional;

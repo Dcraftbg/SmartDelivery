@@ -1,6 +1,10 @@
-package com.smart.delivery.common.requests;
+package com.smart.delivery.common.controller;
 
-import com.smart.delivery.*;
+import com.smart.delivery.common.data.AccountInfo;
+import com.smart.delivery.common.data.ProductInfo;
+import com.smart.delivery.common.data.RestaurantInfo;
+import com.smart.delivery.common.requests.AccessTokenRequest;
+import com.smart.delivery.registry.DbInstance;
 import com.smart.delivery.utils.Auth;
 import com.smart.delivery.utils.DbHelper;
 import org.springframework.http.HttpStatus;

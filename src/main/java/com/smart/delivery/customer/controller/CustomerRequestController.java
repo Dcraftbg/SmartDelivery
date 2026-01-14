@@ -1,9 +1,9 @@
-package com.smart.delivery.customer.requests;
+package com.smart.delivery.customer.controller;
 
-import com.smart.delivery.AccountInfo;
-import com.smart.delivery.AccountType;
-import com.smart.delivery.DbInstance;
-import com.smart.delivery.OrderItem;
+import com.smart.delivery.common.data.AccountInfo;
+import com.smart.delivery.common.data.AccountType;
+import com.smart.delivery.registry.DbInstance;
+import com.smart.delivery.common.data.OrderItem;
 import com.smart.delivery.utils.Auth;
 import lombok.Data;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,6 @@
-package com.smart.delivery;
+package com.smart.delivery.registry;
+
+import com.smart.delivery.common.data.*;
 
 import java.util.*;
 import java.util.stream.IntStream;
