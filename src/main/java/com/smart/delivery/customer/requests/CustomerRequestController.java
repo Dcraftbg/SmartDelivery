@@ -1,6 +1,5 @@
 package com.smart.delivery.customer.requests;
 
-import com.smart.delivery.*;
 import com.smart.delivery.AccountInfo;
 import com.smart.delivery.AccountType;
 import com.smart.delivery.DbInstance;
@@ -22,8 +21,8 @@ import java.util.UUID;
 @RequestMapping(path = "customer_rq")
 public class CustomerRequestController {
     // TODO: refactor this out
-    private Optional<AccountInfo> customer_auth(UUID access_token) {
-        var user_opt = DbHelper.get_account_info_from_access_token(DbInstance.get_instance(), access_token);
+    private Optional<AccountInfo> customerAuth(UUID access_token) {
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), access_token);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + access_token);
             return user_opt;
@@ -44,12 +43,12 @@ public class CustomerRequestController {
         List<OrderItem> order;
     }
     @PostMapping("place_order")
-    public ResponseEntity<ZeroResponse> place_order(@RequestBody PlaceOrderRequest request) {
-        var user = customer_auth(request.getAccess_token());
+    public ResponseEntity<ZeroResponse> placeOrder(@RequestBody PlaceOrderRequest request) {
+        var user = customerAuth(request.getAccess_token());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: this is very wasteful, make a single request and return the id as well. Won't be a problem later with a Db but yeah
-        int id = DbInstance.get_instance().find_account_id_from_access_token(request.getAccess_token());
-        DbInstance.get_instance().insert_new_order(id, request.order);
+        int id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccess_token());
+        DbInstance.get_instance().insertNewOrder(id, request.order);
         return ResponseEntity.ok(new ZeroResponse());
     }
 }

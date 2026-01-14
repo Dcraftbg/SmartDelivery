@@ -1,7 +1,6 @@
 package com.smart.delivery.delivery.requests;
 
 import com.smart.delivery.*;
-import com.smart.delivery.*;
 import com.smart.delivery.utils.DbHelper;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,8 @@ import java.util.UUID;
 @RequestMapping(path = "delivery_rq")
 public class DeliveryRequestController {
     // TODO: refactor this out
-    private Optional<AccountInfo> delivery_auth(UUID access_token) {
-        var user_opt = DbHelper.get_account_info_from_access_token(DbInstance.get_instance(), access_token);
+    private Optional<AccountInfo> deliveryAuth(UUID access_token) {
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), access_token);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + access_token);
             return user_opt;
@@ -33,9 +32,9 @@ public class DeliveryRequestController {
 
 
     @PostMapping("pending_orders")
-    public ResponseEntity<PendingOrder[]> pending_orders(@RequestBody AccessTokenRequest request) {
-        if(delivery_auth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return ResponseEntity.ok(DbInstance.get_instance().get_pending_orders());
+    public ResponseEntity<PendingOrder[]> pendingOrders(@RequestBody AccessTokenRequest request) {
+        if(deliveryAuth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(DbInstance.get_instance().getPendingOrders());
     }
 
     @Data
@@ -44,13 +43,13 @@ public class DeliveryRequestController {
         private final int[] orders;
     }
     @PostMapping("accept_orders")
-    public ResponseEntity<Integer[]> accept_orders(@RequestBody AcceptOrdersRequest request) {
-        if(delivery_auth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Integer[]> acceptOrders(@RequestBody AcceptOrdersRequest request) {
+        if(deliveryAuth(request.getAccess_token()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: stupid return id.
-        int author_id = DbInstance.get_instance().find_account_id_from_access_token(request.getAccess_token());
+        int author_id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccess_token());
         List<Integer> successful = new ArrayList<>();
         for(int id : request.getOrders()) {
-            if(DbInstance.get_instance().accept_order(author_id, id)) {
+            if(DbInstance.get_instance().acceptOrder(author_id, id)) {
                 successful.add(id);
             }
         }
