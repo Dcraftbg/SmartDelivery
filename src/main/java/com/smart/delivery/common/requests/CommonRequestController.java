@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 public class CommonRequestController {
     private Optional<AccountInfo> commonAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), accessToken);
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + accessToken);
         }
@@ -25,17 +25,17 @@ public class CommonRequestController {
     public ResponseEntity<ProductInfo[]> getProducts(@RequestBody GetProductRequest request) {
         var user_opt = commonAuth(request.getAccessToken());
         if(user_opt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return DbInstance.get_instance().getAllProductsForRestaurant(request.getRestaurantId()).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return DbInstance.getInstance().getAllProductsForRestaurant(request.getRestaurantId()).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @PostMapping(path = "get_restaurants")
     public ResponseEntity<RestaurantInfo[]> getRestaurants(@RequestBody AccessTokenRequest request) {
         var user = commonAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return ResponseEntity.ok(DbInstance.get_instance().getAllRestaurants());
+        return ResponseEntity.ok(DbInstance.getInstance().getAllRestaurants());
     }
     @PostMapping(path = "login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return DbInstance.get_instance()
+        return DbInstance.getInstance()
                 .findPasswordTokenPairByUsername(loginRequest.getUsername())
                 .filter(pair -> Arrays.equals(pair.getPass(), loginRequest.getPassword()))
                 .map(pair -> ResponseEntity.ok(new LoginResponse(pair.getToken().toString())))
@@ -44,7 +44,7 @@ public class CommonRequestController {
     @PostMapping(path = "account_info")
     public ResponseEntity<AccountInfo> accountInfo(@RequestBody AccessTokenRequest accountInfoRequest) {
         return DbHelper
-                .getAccountInfoFromAccessToken(DbInstance.get_instance(), accountInfoRequest.getAccessToken())
+                .getAccountInfoFromAccessToken(DbInstance.getInstance(), accountInfoRequest.getAccessToken())
                 .map(account -> new ResponseEntity<>(account, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -17,7 +17,7 @@ import java.util.UUID;
 public class DeliveryRequestController {
     // TODO: refactor this out
     private Optional<AccountInfo> deliveryAuth(UUID access_token) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), access_token);
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), access_token);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + access_token);
             return user_opt;
@@ -34,7 +34,7 @@ public class DeliveryRequestController {
     @PostMapping("pending_orders")
     public ResponseEntity<PendingOrder[]> pendingOrders(@RequestBody AccessTokenRequest request) {
         if(deliveryAuth(request.getAccessToken()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return ResponseEntity.ok(DbInstance.get_instance().getPendingOrders());
+        return ResponseEntity.ok(DbInstance.getInstance().getPendingOrders());
     }
 
     @Data
@@ -46,10 +46,10 @@ public class DeliveryRequestController {
     public ResponseEntity<Integer[]> acceptOrders(@RequestBody AcceptOrdersRequest request) {
         if(deliveryAuth(request.getAccessToken()).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: stupid return id.
-        int author_id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccessToken());
+        int author_id = DbInstance.getInstance().findAccountIdFromAccessToken(request.getAccessToken());
         List<Integer> successful = new ArrayList<>();
         for(int id : request.getOrders()) {
-            if(DbInstance.get_instance().acceptOrder(author_id, id)) {
+            if(DbInstance.getInstance().acceptOrder(author_id, id)) {
                 successful.add(id);
             }
         }

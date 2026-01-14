@@ -14,7 +14,7 @@ public interface DbContext {
     AccountInfo[] getAllAccounts();
     int insertNewRestaurant(RestaurantInfo info);
     RestaurantInfo[] getAllRestaurants();
-    void insertNewProductForRestaurant(int restaurantId, ProductInfo product_info);
+    void insertNewProductForRestaurant(int restaurantId, ProductInfo productInfo);
     Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurantId);
     void insertNewOrder(int issuedByWhom, List<OrderItem> order);
 

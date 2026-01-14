@@ -1,4 +1,4 @@
 package com.smart.delivery;
 
-public record RestaurantInfo(int manager_who_added_entry, String name) {
+public record RestaurantInfo(int managerWhoAddedEntry, String name) {
 }

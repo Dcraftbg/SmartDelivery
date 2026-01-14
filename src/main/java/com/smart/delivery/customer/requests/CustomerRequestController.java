@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CustomerRequestController {
     // TODO: refactor this out
     private Optional<AccountInfo> customerAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), accessToken);
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + accessToken);
             return user_opt;
@@ -47,8 +47,8 @@ public class CustomerRequestController {
         var user = customerAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: this is very wasteful, make a single request and return the id as well. Won't be a problem later with a Db but yeah
-        int id = DbInstance.get_instance().findAccountIdFromAccessToken(request.getAccessToken());
-        DbInstance.get_instance().insertNewOrder(id, request.order);
+        int id = DbInstance.getInstance().findAccountIdFromAccessToken(request.getAccessToken());
+        DbInstance.getInstance().insertNewOrder(id, request.order);
         return ResponseEntity.ok(new ZeroResponse());
     }
 }

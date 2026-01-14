@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AdminRequestController {
     // TODO: refactor this out
     private Optional<AccountInfo> adminAuth(UUID accessToken) {
-        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.get_instance(), accessToken);
+        var user_opt = DbHelper.getAccountInfoFromAccessToken(DbInstance.getInstance(), accessToken);
         if(user_opt.isEmpty()) {
             System.err.println("Someone tried to login with a bogus token: " + accessToken);
             return user_opt;
@@ -37,6 +37,6 @@ public class AdminRequestController {
     public ResponseEntity<AccountInfo[]> getUsers(@RequestBody AccessTokenRequest request) {
         var user = adminAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return ResponseEntity.ok(DbInstance.get_instance().getAllAccounts());
+        return ResponseEntity.ok(DbInstance.getInstance().getAllAccounts());
     }
 }

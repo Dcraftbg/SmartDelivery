@@ -61,8 +61,8 @@ public class RamRegistry implements DbContext {
     }
 
     @Override
-    public void insertNewProductForRestaurant(int restaurantId, ProductInfo product_info) {
-        restaurants.get(restaurantId).products.add(product_info);
+    public void insertNewProductForRestaurant(int restaurantId, ProductInfo productInfo) {
+        restaurants.get(restaurantId).products.add(productInfo);
     }
 
     @Override
