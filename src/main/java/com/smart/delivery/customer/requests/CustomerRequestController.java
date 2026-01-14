@@ -35,20 +35,19 @@ public class CustomerRequestController {
         return Optional.of(user);
     }
 
-    // TODO: think of a better way to do this
-    public record ZeroResponse() {};
+
     @Data
     public static class PlaceOrderRequest {
         UUID accessToken;
         List<OrderItem> order;
     }
     @PostMapping("place_order")
-    public ResponseEntity<ZeroResponse> placeOrder(@RequestBody PlaceOrderRequest request) {
+    public ResponseEntity<Void> placeOrder(@RequestBody PlaceOrderRequest request) {
         var user = customerAuth(request.getAccessToken());
         if(user.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         // TODO: this is very wasteful, make a single request and return the id as well. Won't be a problem later with a Db but yeah
         int id = DbInstance.getInstance().findAccountIdFromAccessToken(request.getAccessToken());
         DbInstance.getInstance().insertNewOrder(id, request.order);
-        return ResponseEntity.ok(new ZeroResponse());
+        return ResponseEntity.ok().build();
     }
 }
