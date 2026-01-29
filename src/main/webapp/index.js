@@ -177,10 +177,7 @@ async function render_site() {
                 }
                 const products = await products_req.json();
                 assert_non_null(products[0]);
-                body += table_from_object_array(products.map((res, index) => ({
-                    id: index,
-                    ...res,
-                })));
+                body += table_from_object_array(products);
             }
             break;
         default:

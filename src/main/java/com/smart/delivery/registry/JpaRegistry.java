@@ -5,6 +5,7 @@ import com.smart.delivery.registry.jpa.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +16,7 @@ public class JpaRegistry implements DbContext {
     private AccountRepository accountRepository;
     private AccessTokenUserIdRepository accessTokenUserIdRepository;
     private RestaurantRepository restaurantRepository;
+    private ProductsRepository productsRepository;
 
     @Override
     public Optional<TokenPassPair> findPasswordTokenPairByUsername(String username) {
@@ -64,11 +66,13 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewProductForRestaurant(int restaurantId, ProductInfo productInfo) {
+        productInfo.setRestaurantId(restaurantId);
+        productsRepository.save(productInfo);
     }
 
     @Override
     public Optional<ProductInfo[]> getAllProductsForRestaurant(int restaurantId) {
-        return Optional.empty();
+        return Optional.of(productsRepository.findByRestaurantId(restaurantId).toArray(new ProductInfo[0]));
     }
 
     @Override
