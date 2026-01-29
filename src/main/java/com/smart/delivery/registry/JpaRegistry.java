@@ -1,7 +1,9 @@
 package com.smart.delivery.registry;
 
 import com.smart.delivery.common.data.*;
+import com.smart.delivery.registry.jpa.AccessTokenIdPair;
 import com.smart.delivery.registry.jpa.AccessTokenRepository;
+import com.smart.delivery.registry.jpa.AccessTokenUserIdRepository;
 import com.smart.delivery.registry.jpa.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.UUID;
 public class JpaRegistry implements DbContext {
     private AccessTokenRepository accessTokenRepository;
     private AccountRepository accountRepository;
+    private AccessTokenUserIdRepository accessTokenUserIdRepository;
     @Override
     public Optional<TokenPassPair> findPasswordTokenPairByUsername(String username) {
         return accessTokenRepository.findById(username);
@@ -36,11 +39,12 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewAccessToken(UUID accessToken, int id) {
+        accessTokenUserIdRepository.save(new AccessTokenIdPair(accessToken, id));
     }
 
     @Override
     public int findAccountIdFromAccessToken(UUID accessToken) {
-        return 0;
+        return accessTokenUserIdRepository.findById(accessToken).map(AccessTokenIdPair::getId).orElse(-1);
     }
 
     @Override

@@ -4,14 +4,11 @@ import com.smart.delivery.registry.DbContext;
 import com.smart.delivery.registry.JpaRegistry;
 import com.smart.delivery.registry.RamRegistry;
 import com.smart.delivery.registry.jpa.AccessTokenRepository;
+import com.smart.delivery.registry.jpa.AccessTokenUserIdRepository;
 import com.smart.delivery.registry.jpa.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class SmartDeliveryConfig {
@@ -22,7 +19,10 @@ public class SmartDeliveryConfig {
     }
     @Bean
     @ConditionalOnProperty(name = "dbProvider", havingValue = "jpa")
-    public DbContext dbContextJpa(AccessTokenRepository accessTokenRepository, AccountRepository accountRepository) {
-        return new JpaRegistry(accessTokenRepository, accountRepository);
+    public DbContext dbContextJpa(
+            AccessTokenRepository accessTokenRepository,
+            AccountRepository accountRepository,
+            AccessTokenUserIdRepository accessTokenUserIdRepository) {
+        return new JpaRegistry(accessTokenRepository, accountRepository, accessTokenUserIdRepository);
     }
 }
