@@ -49,7 +49,8 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public AccountInfo[] getAllAccounts() {
-        return new AccountInfo[0];
+        // TODO: Okay definitely stupid to do a static array
+        return accountRepository.findAll().toArray(new AccountInfo[0]);
     }
 
     @Override
