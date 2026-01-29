@@ -18,7 +18,7 @@ public class DbDataInit {
         UUID access_token = UUID.randomUUID();
         int account_id = dbContext.insertNewAccount(new AccountInfo(username, accountType));
         dbContext.insertNewAccessToken(access_token, account_id);
-        dbContext.insertPasswordTokenPair(username, new TokenPassPair(access_token, pass_hash));
+        dbContext.insertPasswordTokenPair(new TokenPassPair(username, access_token, pass_hash));
         return account_id;
     }
     @PostConstruct

@@ -19,8 +19,8 @@ public class RamRegistry implements DbContext {
     }
 
     @Override
-    public void insertPasswordTokenPair(String username, TokenPassPair passwordTokenPair) {
-        tokens.put(username, passwordTokenPair);
+    public void insertPasswordTokenPair(TokenPassPair passwordTokenPair) {
+        tokens.put(passwordTokenPair.getUsername(), passwordTokenPair);
     }
 
     @Override

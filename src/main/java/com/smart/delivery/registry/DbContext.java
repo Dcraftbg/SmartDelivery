@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface DbContext {
     Optional<TokenPassPair> findPasswordTokenPairByUsername(String username);
-    void insertPasswordTokenPair(String username, TokenPassPair passwordTokenPair);
+    void insertPasswordTokenPair(TokenPassPair passwordTokenPair);
     Optional<AccountInfo> findAccountInfoFromId(int accountId);
     int insertNewAccount(AccountInfo accountInfo);
     void insertNewAccessToken(UUID accessToken, int id);
