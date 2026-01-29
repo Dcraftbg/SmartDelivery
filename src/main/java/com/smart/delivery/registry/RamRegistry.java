@@ -31,6 +31,7 @@ public class RamRegistry implements DbContext {
     @Override
     public int insertNewAccount(AccountInfo accountInfo) {
         int id = accounts.size();
+        accountInfo.setId(id);
         accounts.add(accountInfo);
         return id;
     }
