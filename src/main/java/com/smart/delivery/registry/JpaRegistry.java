@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
-@Service
 public class JpaRegistry implements DbContext {
     private AccessTokenRepository accessTokenRepository;
     @Override
@@ -19,8 +18,7 @@ public class JpaRegistry implements DbContext {
     }
 
     @Override
-    public void insertPasswordTokenPair(String username, TokenPassPair passwordTokenPair) {
-        passwordTokenPair.setUsername(username);
+    public void insertPasswordTokenPair(TokenPassPair passwordTokenPair) {
         accessTokenRepository.save(passwordTokenPair);
     }
 
@@ -36,7 +34,6 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewAccessToken(UUID accessToken, int id) {
-
     }
 
     @Override
@@ -61,7 +58,6 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewProductForRestaurant(int restaurantId, ProductInfo productInfo) {
-
     }
 
     @Override
@@ -71,7 +67,6 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewOrder(int issuedByWhom, List<OrderItem> order) {
-
     }
 
     @Override
