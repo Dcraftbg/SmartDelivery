@@ -1,10 +1,7 @@
 package com.smart.delivery.registry;
 
 import com.smart.delivery.common.data.*;
-import com.smart.delivery.registry.jpa.AccessTokenIdPair;
-import com.smart.delivery.registry.jpa.AccessTokenRepository;
-import com.smart.delivery.registry.jpa.AccessTokenUserIdRepository;
-import com.smart.delivery.registry.jpa.AccountRepository;
+import com.smart.delivery.registry.jpa.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +14,8 @@ public class JpaRegistry implements DbContext {
     private AccessTokenRepository accessTokenRepository;
     private AccountRepository accountRepository;
     private AccessTokenUserIdRepository accessTokenUserIdRepository;
+    private RestaurantRepository restaurantRepository;
+
     @Override
     public Optional<TokenPassPair> findPasswordTokenPairByUsername(String username) {
         return accessTokenRepository.findById(username);
@@ -55,12 +54,12 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public int insertNewRestaurant(RestaurantInfo info) {
-        return 0;
+        return restaurantRepository.save(info).getId();
     }
 
     @Override
     public RestaurantInfo[] getAllRestaurants() {
-        return new RestaurantInfo[0];
+        return restaurantRepository.findAll().toArray(new RestaurantInfo[0]);
     }
 
     @Override

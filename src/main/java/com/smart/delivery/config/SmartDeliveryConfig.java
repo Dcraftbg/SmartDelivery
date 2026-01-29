@@ -6,6 +6,7 @@ import com.smart.delivery.registry.RamRegistry;
 import com.smart.delivery.registry.jpa.AccessTokenRepository;
 import com.smart.delivery.registry.jpa.AccessTokenUserIdRepository;
 import com.smart.delivery.registry.jpa.AccountRepository;
+import com.smart.delivery.registry.jpa.RestaurantRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,9 @@ public class SmartDeliveryConfig {
     public DbContext dbContextJpa(
             AccessTokenRepository accessTokenRepository,
             AccountRepository accountRepository,
-            AccessTokenUserIdRepository accessTokenUserIdRepository) {
-        return new JpaRegistry(accessTokenRepository, accountRepository, accessTokenUserIdRepository);
+            AccessTokenUserIdRepository accessTokenUserIdRepository,
+            RestaurantRepository restaurantRepository
+    ) {
+        return new JpaRegistry(accessTokenRepository, accountRepository, accessTokenUserIdRepository, restaurantRepository);
     }
 }

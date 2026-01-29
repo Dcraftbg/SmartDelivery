@@ -157,18 +157,12 @@ async function render_site() {
         case ADMIN_RENDER_STATE_ACCOUNTS:
             const accounts = await (await admin_request_get_accounts(access_token)).json();
             assert_non_null(accounts[0]);
-            body += table_from_object_array(accounts.map((res, index) => ({
-                id: index,
-                ...res,
-            })));
+            body += table_from_object_array(accounts);
             break;
         case ADMIN_RENDER_STATE_RESTAURANTS:
             const restaurants = await (await request_get_restaurants(access_token)).json();
             assert_non_null(restaurants[0]);
-            body += table_from_object_array(restaurants.map((res, index) => ({
-                id: index,
-                ...res,
-            })));
+            body += table_from_object_array(restaurants);
             break;
         case ADMIN_RENDER_STATE_PRODUCTS:
             const restaurant_box = document.getElementById("restaurant_id");
@@ -208,10 +202,7 @@ async function render_site() {
                 body += `Oops. Cart is empty :)`
             } else {
                 // TODO: cache
-                const restaurants = (await (await request_get_restaurants(access_token)).json()).map((res, index) => ({
-                    id: index,
-                    ...res
-                }));
+                const restaurants = (await (await request_get_restaurants(access_token)).json());
                 const restaurant_product_pair = await Promise.all(restaurants.map(async (res) => ({
                     products: (await (await request_get_products(access_token, res.id)).json()),
                     ...res
@@ -251,10 +242,7 @@ async function render_site() {
             break;
         case CUSTOMER_RENDER_STATE_MENU: {
             // TODO: cache
-            const restaurants = (await (await request_get_restaurants(access_token)).json()).map((res, index) => ({
-                id: index,
-                ...res
-            }));
+            const restaurants = (await (await request_get_restaurants(access_token)).json());
             const restaurant_product_pair = await Promise.all(restaurants.map(async (res) => ({
                 products: (await (await request_get_products(access_token, res.id)).json()),
                 ...res
