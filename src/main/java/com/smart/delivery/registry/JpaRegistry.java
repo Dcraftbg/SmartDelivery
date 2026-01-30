@@ -17,6 +17,8 @@ public class JpaRegistry implements DbContext {
     private AccessTokenUserIdRepository accessTokenUserIdRepository;
     private RestaurantRepository restaurantRepository;
     private ProductsRepository productsRepository;
+    private OrderItemRepository orderItemRepository;
+    private OrderRepository orderRepository;
 
     @Override
     public Optional<TokenPassPair> findPasswordTokenPairByUsername(String username) {
@@ -77,15 +79,34 @@ public class JpaRegistry implements DbContext {
 
     @Override
     public void insertNewOrder(int issuedByWhom, List<OrderItem> order) {
+        boolean completed = false;
+        int completedByWhom = -1;
+        var id = orderRepository.save(new DbOrder(completed, completedByWhom, issuedByWhom)).getOrderId();
+        for (OrderItem item : order) {
+            orderItemRepository.save(new DbOrder.Item(id, item.restaurantId(), item.productId(), item.count()));
+        }
     }
 
     @Override
     public PendingOrder[] getPendingOrders() {
-        return new PendingOrder[0];
+        var orders = orderRepository.findAllByCompleted(false);
+        return orders.stream()
+            .map(order -> new PendingOrder(order.getOrderId(),
+                orderItemRepository.findAllByOrderId(order.getOrderId())
+                    .stream()
+                    .map(item -> new OrderItem(item.getRestaurantId(), item.getProductId(), item.getCount()))
+                    .toList()
+            )).toArray(PendingOrder[]::new);
     }
 
     @Override
     public boolean acceptOrder(int acceptedByWhom, int id) {
-        return false;
+        var entryOpt = orderRepository.findById(id);
+        if(!entryOpt.isPresent()) return false;
+        var entry = entryOpt.get();
+        entry.setCompleted(true);
+        entry.setCompletedByWhom(acceptedByWhom);
+        orderRepository.save(entry);
+        return true;
     }
 }

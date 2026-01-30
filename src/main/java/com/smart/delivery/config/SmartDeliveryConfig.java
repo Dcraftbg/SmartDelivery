@@ -22,8 +22,18 @@ public class SmartDeliveryConfig {
             AccountRepository accountRepository,
             AccessTokenUserIdRepository accessTokenUserIdRepository,
             RestaurantRepository restaurantRepository,
-            ProductsRepository productsRepository
+            ProductsRepository productsRepository,
+            OrderItemRepository orderItemRepository,
+            OrderRepository orderRepository
     ) {
-        return new JpaRegistry(accessTokenRepository, accountRepository, accessTokenUserIdRepository, restaurantRepository, productsRepository);
+        return new JpaRegistry(
+                accessTokenRepository,
+                accountRepository,
+                accessTokenUserIdRepository,
+                restaurantRepository,
+                productsRepository,
+                orderItemRepository,
+                orderRepository
+        );
     }
 }

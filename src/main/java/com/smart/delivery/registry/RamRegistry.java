@@ -31,6 +31,7 @@ public class RamRegistry implements DbContext {
     @Override
     public int insertNewAccount(AccountInfo accountInfo) {
         int id = accounts.size();
+        System.out.println("insertNewAccount: " + id);
         accountInfo.setId(id);
         accounts.add(accountInfo);
         return id;
@@ -54,8 +55,9 @@ public class RamRegistry implements DbContext {
 
     @Override
     public int insertNewRestaurant(RestaurantInfo info) {
+        info.setId(restaurants.size());
         restaurants.add(new Restaurant(info, new ArrayList<>()));
-        return restaurants.size()-1;
+        return info.getId();
     }
 
     @Override
@@ -65,6 +67,8 @@ public class RamRegistry implements DbContext {
 
     @Override
     public void insertNewProductForRestaurant(int restaurantId, ProductInfo productInfo) {
+        productInfo.setRestaurantId(restaurantId);
+        productInfo.setId(restaurants.get(restaurantId).products.size());
         restaurants.get(restaurantId).products.add(productInfo);
     }
 
