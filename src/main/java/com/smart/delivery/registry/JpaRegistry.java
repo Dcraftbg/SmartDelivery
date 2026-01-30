@@ -102,7 +102,7 @@ public class JpaRegistry implements DbContext {
     @Override
     public boolean acceptOrder(int acceptedByWhom, int id) {
         var entryOpt = orderRepository.findById(id);
-        if(!entryOpt.isPresent()) return false;
+        if(entryOpt.isEmpty()) return false;
         var entry = entryOpt.get();
         entry.setCompleted(true);
         entry.setCompletedByWhom(acceptedByWhom);
